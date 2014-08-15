@@ -35,7 +35,7 @@ void Terrain::generateHills()
     
     float minDX = 160;
     float minDY = 60;
-    int rangeDX = 80;
+    int rangeDX = 120;
     int rangeDY = 40;
     
     float x = -minDX;

@@ -31,6 +31,7 @@ public:
     void wake();
     void dive();
     void limitVelocity();
+    void applyTorque(cocos2d::CCAcceleration *pAccelerationValue);
     
 private:
     b2World *_world;

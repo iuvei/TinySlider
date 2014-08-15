@@ -255,6 +255,8 @@
 		6A0493401999DC3900818B6D /* TinySeal.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A04933C1999DC3900818B6D /* TinySeal.png */; };
 		6A0493431999E0A600818B6D /* Hero.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A0493411999E0A600818B6D /* Hero.cpp */; };
 		6A0493461999FECC00818B6D /* ContactListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6A0493441999FECC00818B6D /* ContactListener.cpp */; };
+		6AE6C049199DB519002509E2 /* BackgroundLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6AE6C047199DB519002509E2 /* BackgroundLayer.cpp */; };
+		6AE6C04B199DB78D002509E2 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AE6C04A199DB78D002509E2 /* background.png */; };
 		7855E0E1153FEF240059DD9A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 7855E0DF153FEF240059DD9A /* Default.png */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712461292920000B8313A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB212928DE900B8313A /* libxml2.dylib */; };
@@ -800,6 +802,9 @@
 		6A0493421999E0A600818B6D /* Hero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hero.h; sourceTree = "<group>"; };
 		6A0493441999FECC00818B6D /* ContactListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ContactListener.cpp; sourceTree = "<group>"; };
 		6A0493451999FECC00818B6D /* ContactListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContactListener.h; sourceTree = "<group>"; };
+		6AE6C047199DB519002509E2 /* BackgroundLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BackgroundLayer.cpp; sourceTree = "<group>"; };
+		6AE6C048199DB519002509E2 /* BackgroundLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BackgroundLayer.h; sourceTree = "<group>"; };
+		6AE6C04A199DB78D002509E2 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		7855E0DF153FEF240059DD9A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = SOURCE_ROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB212928DE900B8313A /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -1340,6 +1345,8 @@
 				1AFAF8B416D35DE700DB1158 /* AppDelegate.h */,
 				1AFAF8B516D35DE700DB1158 /* HelloWorldScene.cpp */,
 				1AFAF8B616D35DE700DB1158 /* HelloWorldScene.h */,
+				6AE6C047199DB519002509E2 /* BackgroundLayer.cpp */,
+				6AE6C048199DB519002509E2 /* BackgroundLayer.h */,
 				6A0493331999BC4700818B6D /* Terrain.cpp */,
 				6A0493341999BC4700818B6D /* Terrain.h */,
 				6A0493411999E0A600818B6D /* Hero.cpp */,
@@ -1962,6 +1969,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6AE6C04A199DB78D002509E2 /* background.png */,
 				6A0493391999DC3900818B6D /* TinySeal.caf */,
 				6A04933A1999DC3900818B6D /* TinySeal.mp3 */,
 				6A04933B1999DC3900818B6D /* TinySeal.plist */,
@@ -2053,6 +2061,7 @@
 			files = (
 				7855E0E1153FEF240059DD9A /* Default.png in Resources */,
 				D4EF949A15BD2D8B00D803EB /* Icon-57.png in Resources */,
+				6AE6C04B199DB78D002509E2 /* background.png in Resources */,
 				D4EF949C15BD2D8E00D803EB /* Icon-114.png in Resources */,
 				6A04933F1999DC3900818B6D /* TinySeal.plist in Resources */,
 				D4EF949E15BD2D9600D803EB /* Icon-72.png in Resources */,
@@ -2160,6 +2169,7 @@
 				15A3D9AE1682F7F9002FB0C5 /* cpSpaceQuery.c in Sources */,
 				15A3D9AF1682F7F9002FB0C5 /* cpSpaceStep.c in Sources */,
 				15A3D9B01682F7F9002FB0C5 /* cpSpatialIndex.c in Sources */,
+				6AE6C049199DB519002509E2 /* BackgroundLayer.cpp in Sources */,
 				15A3D9B11682F7F9002FB0C5 /* cpSweep1D.c in Sources */,
 				15A3D9B21682F7F9002FB0C5 /* cpVect.c in Sources */,
 				15A3DA311682F826002FB0C5 /* CCBAnimationManager.cpp in Sources */,
@@ -2328,8 +2338,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gun Li (A665XQL5F4)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gun Li (A665XQL5F4)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -2378,8 +2388,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;

@@ -33,7 +33,7 @@ public:
     void ccTouchesCancelled(CCSet *pTouches, CCEvent *pEvent);
     CCSprite * spriteWithColor(ccColor4F c1, ccColor4F c2, float textureWidth, float textureHeight, int nStripes);
     void update(float dt);
-    
+    void didAccelerate(CCAcceleration* pAccelerationValue);
     void setupWorld();
     void createBodyAtPostition(CCPoint position);
 private:

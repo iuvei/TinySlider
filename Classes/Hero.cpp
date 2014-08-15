@@ -58,6 +58,9 @@ bool Hero::initWithWorld(b2World *world)
 void Hero::update(float dt)
 {
     this->setPosition(ccp(_body->GetPosition().x * PTM_RATIO, _body->GetPosition().y * PTM_RATIO));
+    float32 angle = _body->GetAngle();
+    this->setRotation(-1 * CC_RADIANS_TO_DEGREES(angle));
+    /*
     b2Vec2 vel = _body->GetLinearVelocity();
     b2Vec2 weightedVel = vel;
     
@@ -76,7 +79,9 @@ void Hero::update(float dt)
     if (_awake)
     {
         this->setRotation(-1 * CC_RADIANS_TO_DEGREES(angle));
+        _body->SetTransform(_body->GetPosition(), angle);
     }
+    */
 }
 
 void Hero::createBody()
@@ -90,15 +95,19 @@ void Hero::createBody()
     b2BodyDef bd;
     bd.type = b2_dynamicBody;
     bd.linearDamping = 0.1f;
-    bd.fixedRotation = true;
+    bd.fixedRotation = false;
     bd.position.Set(startPosition.x / PTM_RATIO, startPosition.y / PTM_RATIO);
     _body = _world->CreateBody(&bd);
+    
+    
+    b2PolygonShape shape2;
+    shape2.SetAsBox(30/PTM_RATIO, 7/PTM_RATIO);
     
     b2CircleShape shape;
     shape.m_radius = radius / PTM_RATIO;
     
     b2FixtureDef fd;
-    fd.shape = &shape;
+    fd.shape = &shape2;
     fd.density = 1.0f / CC_CONTENT_SCALE_FACTOR();
     fd.restitution = 0.0f;
     fd.friction = 0.2f;
@@ -110,12 +119,18 @@ void Hero::createBody()
 
 void Hero::wake()
 {
+    b2Vec2 vec = _body->GetLinearVelocity();
+    if (vec.x > 30) {
+        return ;
+    }
+    _awake = true;
+    _body->SetActive(true);
     _body->ApplyLinearImpulse(b2Vec2(2, 0), _body->GetPosition());
 }
 
 void Hero::dive()
 {
-    _body->ApplyForce(b2Vec2(5, -50), _body->GetPosition());
+    _body->ApplyForce(b2Vec2(6, -50), _body->GetPosition());
 }
 
 void Hero::limitVelocity()
@@ -137,4 +152,16 @@ void Hero::limitVelocity()
         vel.y = minVelocityY;
     }
     _body->SetLinearVelocity(vel);
+}
+
+void Hero::applyTorque(CCAcceleration *pAccelerationValue)
+{
+    if (pAccelerationValue->x > 0.15) {
+        //负偏转
+        _body->SetAngularVelocity(-1.8 * M_PI);
+    }
+    if (pAccelerationValue->x < -0.15) {
+        //正偏转
+        _body->SetAngularVelocity(1.8 * M_PI);
+    }
 }

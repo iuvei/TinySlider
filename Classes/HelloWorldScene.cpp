@@ -1,5 +1,6 @@
 #include "HelloWorldScene.h"
 #include "ContactListener.h"
+#include "BackgroundLayer.h"
 
 USING_NS_CC;
 
@@ -7,6 +8,9 @@ CCScene* HelloWorld::scene()
 {
     // 'scene' is an autorelease object
     CCScene *scene = CCScene::create();
+    
+    BackgroundLayer *bkLayer = BackgroundLayer::create();
+    scene->addChild(bkLayer, -1);
     
     // 'layer' is an autorelease object
     HelloWorld *layer = HelloWorld::create();
@@ -27,6 +31,7 @@ bool HelloWorld::init()
     {
         return false;
     }
+    this->setAccelerometerEnabled(true);
     _tapDown = false;
     CCSize visibleSize = CCDirector::sharedDirector()->getVisibleSize();
     CCPoint origin = CCDirector::sharedDirector()->getVisibleOrigin();
@@ -49,30 +54,6 @@ bool HelloWorld::init()
     CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
     pMenu->setPosition(CCPointZero);
     this->addChild(pMenu, 1);
-
-    /////////////////////////////
-    // 3. add your codes below...
-
-    // add a label shows "Hello World"
-    // create and initialize a label
-    
-    CCLabelTTF* pLabel = CCLabelTTF::create("Hello World", "Arial", 24);
-    
-    // position the label on the center of the screen
-    pLabel->setPosition(ccp(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - pLabel->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(pLabel, 1);
-
-    // add "HelloWorld" splash screen"
-    CCSprite* pSprite = CCSprite::create("HelloWorld.png");
-
-    // position the sprite on the center of the screen
-    pSprite->setPosition(ccp(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-
-    // add the sprite as a child to this layer
-    this->addChild(pSprite, 0);
     
     return true;
 }
@@ -133,7 +114,7 @@ void HelloWorld::genBackground()
     
     ccColor4F color3 = this->randomBrightColor();
     ccColor4F color4 = this->randomBrightColor();
-    CCSprite *stripes = this->spriteWithColor(color3, color4, 512, 512, 4);
+    CCSprite *stripes = this->spriteWithColor(color3, color3, 512, 512, 1);
     ccTexParams tp2 = {GL_LINEAR, GL_LINEAR, GL_REPEAT, GL_CLAMP_TO_EDGE};
     stripes->getTexture()->setTexParameters(&tp2);
     _terrain->setStripes(stripes);
@@ -158,6 +139,7 @@ void HelloWorld::onEnter()
 void HelloWorld::ccTouchesBegan(CCSet *pTouches, CCEvent *pEvent)
 {
     _tapDown = true;
+    
     /*
     CCTouch *anyTouch = static_cast<CCTouch*>(pTouches->anyObject());
     CCPoint touchLocation = _terrain->convertTouchToNodeSpace(anyTouch);
@@ -243,8 +225,10 @@ CCSprite * HelloWorld::spriteWithColor(ccColor4F c1, ccColor4F c2, float texture
 
 void HelloWorld::update(float dt)
 {
+    
     if (_tapDown)
     {
+        /*
         if (!_hero->getAwake())
         {
             _hero->wake();
@@ -254,6 +238,9 @@ void HelloWorld::update(float dt)
         {
             _hero->dive();
         }
+         */
+        _hero->wake();
+        _tapDown = false;
     }
     _hero->limitVelocity();
     
@@ -284,6 +271,9 @@ void HelloWorld::update(float dt)
     {
         scale = 1;
     }
+    if (scale < 0.8) {
+        scale = 0.8;
+    }
     
     _terrain->setScale(scale);
     float offset = _hero->getPosition().x;
@@ -293,7 +283,7 @@ void HelloWorld::update(float dt)
 
 void HelloWorld::setupWorld()
 {
-    b2Vec2 gravity = b2Vec2(0.0f, -7.0f);
+    b2Vec2 gravity = b2Vec2(0.0f, -7.f);
     bool doSleep = true;
     _world = new b2World(gravity);
     _world->SetAllowSleeping(doSleep);
@@ -309,12 +299,19 @@ void HelloWorld::createBodyAtPostition(CCPoint position)
     testBodyDef.position.Set(position.x / PTM_RATIO, position.y / PTM_RATIO);
     b2Body *testBody = _world->CreateBody(&testBodyDef);
     
-    b2CircleShape testBodyShape;
+    b2PolygonShape testBodyShape;
+    testBodyShape.SetAsBox(25.f/PTM_RATIO, 25.f/PTM_RATIO);
     b2FixtureDef testFixtureDef;
-    testBodyShape.m_radius = 25.0 / PTM_RATIO;
+//    testBodyShape.m_radius = 25.0 / PTM_RATIO;
     testFixtureDef.shape = &testBodyShape;
     testFixtureDef.density = 1.0;
     testFixtureDef.friction = 2.0;
     testFixtureDef.restitution = 0.5;
     testBody->CreateFixture(&testFixtureDef);
+}
+
+
+void HelloWorld::didAccelerate(CCAcceleration* pAccelerationValue)
+{
+    _hero->applyTorque(pAccelerationValue);
 }
