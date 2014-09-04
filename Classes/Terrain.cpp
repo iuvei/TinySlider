@@ -255,9 +255,9 @@ bool Terrain::initWithWorld(b2World *world)
         
         _world = world;
         
-        _batchNode = CCSpriteBatchNode::create("TinySeal.png");
+        _batchNode = CCSpriteBatchNode::create("right_board_grab1.png");
         this->addChild(_batchNode);
-        CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("TinySeal.plist");
+//        CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("TinySeal.plist");
         
         this->setupDebugDraw();
         this->setShaderProgram(CCShaderCache::sharedShaderCache()->programForKey(kCCShader_PositionTexture));

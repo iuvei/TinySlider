@@ -44,7 +44,7 @@ bool Hero::initWithWorld(b2World *world)
     bool bRet = false;
     do
     {
-        CC_BREAK_IF(!CCSprite::initWithSpriteFrameName("seal1.png"));
+        CC_BREAK_IF(!CCSprite::initWithFile("right_board_grab1.png"));
         
         _world = world;
         this->createBody();
@@ -90,7 +90,7 @@ void Hero::createBody()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     int screenH = size.height;
     
-    CCPoint startPosition = ccp(0, screenH / 2 + radius);
+    CCPoint startPosition = ccp(0, screenH / 2 + radius + 100);
     
     b2BodyDef bd;
     bd.type = b2_dynamicBody;
@@ -99,15 +99,21 @@ void Hero::createBody()
     bd.position.Set(startPosition.x / PTM_RATIO, startPosition.y / PTM_RATIO);
     _body = _world->CreateBody(&bd);
     
-    
     b2PolygonShape shape2;
     shape2.SetAsBox(30/PTM_RATIO, 7/PTM_RATIO);
     
     b2CircleShape shape;
     shape.m_radius = radius / PTM_RATIO;
     
+    b2PolygonShape triangleShape;
+    b2Vec2 vec[3];
+    vec[0] = b2Vec2(-30/PTM_RATIO, -30/PTM_RATIO);
+    vec[1] = b2Vec2(30/PTM_RATIO, -30/PTM_RATIO);
+    vec[2] = b2Vec2(0, 10/PTM_RATIO);
+    triangleShape.Set(vec, 3);
+    
     b2FixtureDef fd;
-    fd.shape = &shape2;
+    fd.shape = &triangleShape;
     fd.density = 1.0f / CC_CONTENT_SCALE_FACTOR();
     fd.restitution = 0.0f;
     fd.friction = 0.2f;
@@ -125,7 +131,7 @@ void Hero::wake()
     }
     _awake = true;
     _body->SetActive(true);
-    _body->ApplyLinearImpulse(b2Vec2(2, 0), _body->GetPosition());
+    _body->ApplyLinearImpulse(b2Vec2(2.f, 0), _body->GetWorldCenter());
 }
 
 void Hero::dive()
@@ -137,7 +143,7 @@ void Hero::limitVelocity()
 {
     if (!_awake)
     {
-        return;
+        return ;
     }
     
     const float minVelocityX = 5;
@@ -156,12 +162,15 @@ void Hero::limitVelocity()
 
 void Hero::applyTorque(CCAcceleration *pAccelerationValue)
 {
+    _body->SetAngularVelocity(-pAccelerationValue->x * 3 * M_PI);
+    /*
     if (pAccelerationValue->x > 0.15) {
         //负偏转
-        _body->SetAngularVelocity(-1.8 * M_PI);
+        _body->SetAngularVelocity(-1 * M_PI);
     }
     if (pAccelerationValue->x < -0.15) {
         //正偏转
-        _body->SetAngularVelocity(1.8 * M_PI);
+        _body->SetAngularVelocity(1 * M_PI);
     }
+     */
 }

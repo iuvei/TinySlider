@@ -131,6 +131,10 @@ void HelloWorld::onEnter()
     _hero = Hero::createWithWorld(_world);
     _terrain->getBatchNode()->addChild(_hero);
     
+    ContactListener *listener = new ContactListener();
+    listener->setHero(_hero);
+    _world->SetContactListener(listener);
+    
     this->scheduleUpdate();
     this->genBackground();
     this->setTouchEnabled(true);
@@ -287,9 +291,6 @@ void HelloWorld::setupWorld()
     bool doSleep = true;
     _world = new b2World(gravity);
     _world->SetAllowSleeping(doSleep);
-    
-    ContactListener *listener = new ContactListener();
-    _world->SetContactListener(listener);
 }
 
 void HelloWorld::createBodyAtPostition(CCPoint position)

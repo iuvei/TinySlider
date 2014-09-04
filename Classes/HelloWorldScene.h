@@ -7,7 +7,7 @@
 #include "Hero.h"
 using namespace cocos2d;
 
-#define PTM_RATIO 32.0
+#define PTM_RATIO 32.f
 
 class HelloWorld : public cocos2d::CCLayer
 {

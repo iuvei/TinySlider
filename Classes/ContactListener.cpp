@@ -16,6 +16,10 @@ void ContactListener::BeginContact(b2Contact* contact)
     CCSprite *sprite = (CCSprite *)contact->GetFixtureA()->GetBody()->GetUserData();
     CCSprite *sprite2 = (CCSprite *)contact->GetFixtureB()->GetBody()->GetUserData();
     if (sprite == _hero || sprite2 == _hero) {
+        float rotation = _hero->getRotation();
+        if (rotation > 85.f || rotation < -85.f) {
+            printf("Game Over!\n");
+        }
     }
 }
 
